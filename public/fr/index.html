@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+	<meta content="utf-8" http-equiv="encoding" />
+	<title>Poke Guesser</title>
+	<link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+	<div id="pokedex">
+		<div id="pokedex_right">
+			<img id="pokemon_image" src="../unknown_pokemon_tmp.png" alt="Unknown pokemon">
+		</div>
+		<div id="pokedex_left">
+			<p id="pokemon_name">Nom: ???</p>
+			<p id="pokemon_types">Types: ???</p>
+			<p id="pokemon_weight">Poid: ???</p>
+			<p id="pokemon_height">Taille: ???</p>
+			<p id="pokemon_description">Description: ???</p>
+		</div>
+
+	</div>
+	<div id="answer">
+		<input type="text" id="title_input" name="lname">
+		<button id="guess_pokemon" type="button" onclick="try_guess_pokemon()">Guess</button>
+	</div>
+
+	<script src="../game.js"></script>
+</body>
+
+</html>

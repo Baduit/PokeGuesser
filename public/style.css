@@ -1,0 +1,28 @@
+#pokedex {
+    border: 5px solid rgb(204, 0, 0);
+    display: flex;
+}
+
+#lobby {
+    border: 5px solid #aaa;
+}
+
+#answer {
+    border: 5px solid #aaa;
+}
+
+#stats {
+    border: 5px solid #aaa;
+}
+
+#pokedex_right {
+    border: 5px solid rgb(204, 0, 0);
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
+p {
+    white-space: pre-line;
+}
