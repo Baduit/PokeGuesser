@@ -1,0 +1,11 @@
+{
+	"name": "pokeguesser",
+	"version": "0.0.1",
+	"maintainers": [
+		"Baduit <lena.bertho@protonmail.com>"
+	],
+	"description": "A game",
+	"dependencies": [
+		"nlohmann-json"
+	]
+}
