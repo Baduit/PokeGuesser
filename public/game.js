@@ -20,8 +20,9 @@ function update_weight(weight) {
 	element.textContent = element.textContent.replace("???", weight.toString())
 }
 
-function update_height(height) {
+function update_height(height_in_dm) {
 	let element = document.getElementById("pokemon_height")
+	height = height_in_dm / 10.0;
 	element.textContent = element.textContent.replace("???", height.toString())
 }
 
