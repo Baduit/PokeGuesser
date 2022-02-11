@@ -34,11 +34,15 @@ App::App():
 			// todo replace thoses string for game_status
 			if (finished)
 			{
-
-			}
-			else if (success)
-			{
 				reply["game_status"] = "finished";
+			}
+			else
+			{
+				reply["game_status"] = "running";
+			}
+
+			if (success)
+			{
 				reply["pokemon"] = _daily_pokemon;
 			}
 			else
@@ -48,35 +52,30 @@ App::App():
 				
 				if (nb_tries == 1)
 				{
-					reply["game_status"] = "running";
 					reply["field_name"] = "types";
 					reply["field_value"] = _daily_pokemon.types;
 				}
 				else if (nb_tries == 2)
 				{
-					reply["game_status"] = "running";
 					reply["field_name"] = "height";
 					reply["field_value"] = _daily_pokemon.height;
 				}
 				else if (nb_tries == 3)
 				{
-					reply["game_status"] = "running";
 					reply["field_name"] = "weight";
 					reply["field_value"] = _daily_pokemon.weight;
 				}
 				else if (nb_tries == 4)
 				{
-					reply["game_status"] = "running";
 					reply["field_name"] = "image_url";
 					reply["field_value"] = _daily_pokemon.image_url;
 				}
 				else if (nb_tries == 5)
 				{
-					reply["game_status"] = "finished";
 					reply["field_name"] = "name";
 					reply["field_value"] = _daily_pokemon.name;
 				}
-				else
+				else if (!finished)
 				{
 					throw std::runtime_error("Nb tries is weird because too high");
 				}
@@ -152,7 +151,7 @@ GuessResult App::guess(PlayerId player_id, std::string_view pokemon_name)
 	}
 	else
 	{
-		++(player.nb_try)
+		++(player.nb_try);
 		if (player.nb_try >= 5)
 			player.finished = true;
 		return GuessResult{ .success = false, .finished = player.finished, .nb_tries = player.nb_try };
