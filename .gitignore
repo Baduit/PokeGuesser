@@ -127,9 +127,3 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-
-# C++
-build
-gcc_build
-clang_build
-msvc_build
