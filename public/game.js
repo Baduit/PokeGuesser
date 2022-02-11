@@ -30,6 +30,10 @@ function update_name(name) {
 	element.textContent = element.textContent.replace("???", name)
 }
 
+function is_local() {
+	return window.location.href.startsWith("file") || window.location.href.indexOf("localhost") != -1;
+}
+
 function try_guess_pokemon() {
 	const pokemon_name = document.getElementById("title_input").value
 	if (pokemon_name == "") {
@@ -40,7 +44,12 @@ function try_guess_pokemon() {
 		method: 'GET'
 	}
 
-	let url = new URL("http://localhost:1234/guess")
+	let url;
+	if (is_local()) {
+		url = new URL("http://localhost:1234/guess")
+	} else {
+		url = new URL("https://pokeguesser.baduit.eu/guess")
+	}
 	url.searchParams.append("id", player_id.toString())
 	url.searchParams.append("pokemon_name", pokemon_name)
 
@@ -88,7 +97,12 @@ function startup() {
 		method: 'GET'
 	}
 
-	let url = "http://localhost:1234/start"
+	let url;
+	if (is_local()) {
+		url = "http://localhost:1234/start"
+	} else {
+		url = "https://pokeguesser.baduit.eu/start"
+	}
 
 	fetch(url, options)
 		.then((response) => {
