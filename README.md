@@ -11,4 +11,7 @@ Your daily dose of Pokemon
 * Change the pokemon
 * Gérer collision des ids
 * Supprimer les comptes qui ont gagnés de la liste des users
-* Gérer la casse lol
+* Add a button to share the results
+* Varier les descriptions/flavor_text
+* Ajouter la génération du pokémon
+* Add Github Link

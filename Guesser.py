@@ -33,7 +33,7 @@ class PlayerStatus:
 				"game_status": "finished",
 				"error_message": "You played enough for today !"
 			}
-		elif pokemon.name == pokemon_name:
+		elif pokemon.name.casefold() == pokemon_name.casefold():
 			return {
 				"success": True,
 				"game_status": "finished",
