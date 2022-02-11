@@ -9,3 +9,4 @@ Your daily dose of Pokemon
 * Make a real readme
 * Handle a max number of players, just in case
 * Add a check in the front that verify if the pokemon exists
+* change the pokemon eveyday

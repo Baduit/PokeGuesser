@@ -1,53 +1,38 @@
 #pragma once
 
-#include <charconv>
 #include <utility>
-
-#include <nlohmann/json.hpp>
+#include <map>
+#include <mutex>
 
 #include <network.hpp>
+#include <PlayerStatus.hpp>
+#include <Pokemon.hpp>
+
+using PlayerId = int;
+
+struct GuessResult
+{
+	bool success = false;
+	bool finished = false;
+	int nb_tries = 0;
+};
 
 class App
 {
 	public:
-		App()
-		{
-			_srv.Get("/start",
-				[&](const httplib::Request& req, httplib::Response& res)
-				{
-					nlohmann::json reply;
-					res.body = reply.dump();
-					res.set_header("Access-Control-Allow-Origin", "*");
-				});
+		App();
 
-			_srv.Get("/start",
-				[&](const httplib::Request& req, httplib::Response& res)
-				{
-					nlohmann::json reply;
-					res.body = reply.dump();
-					res.set_header("Access-Control-Allow-Origin", "*");
-				});
-		}
-
-		void run(const char* host, int port)
-		{
-			_srv.listen(host, port);
-		}
+		void run(const char* host, int port);
 
 	private:
-		int get_integer_param(const char* param_name, const httplib::Params& params)
-		{
-			auto it = params.find(param_name);
-			if (it == params.cend())
-				throw std::runtime_error("Param : '" + std::string(param_name) + "' not found");
-			int param_value = 0;
-			auto& param_string_value = it->second;
-			auto [_, ec] = std::from_chars(param_string_value.data(), param_string_value.data() + param_string_value.size(), param_value);
-			if (ec != std::errc())
-				throw std::runtime_error("Param : '" + std::string(param_name) + "' has an invalid format, expected int, got : " + param_string_value);
-			return param_value;
-		}
+		int get_integer_param(const char* param_name, const httplib::Params& params);
+		std::string_view get_string_param(const char* param_name, const httplib::Params& params);
+		PlayerId add_player();
+		GuessResult guess(PlayerId player_id, std::string_view pokemon_name);
 
 	private:
+		Pokemon _daily_pokemon;
 		httplib::Server _srv;
+		std::map<PlayerId, PlayerStatus> _players;
+		std::mutex _mutex;
 };
