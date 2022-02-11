@@ -1,71 +1,32 @@
 #pragma once
 
-#include <tuple>
-#include <type_traits>
 #include <charconv>
 #include <utility>
 
+#include <nlohmann/json.hpp>
+
 #include <network.hpp>
-
-#include <AppLogic.hpp>
-#include <Route.hpp>
-#include <Messages.hpp>
-
-
-template <typename RequestType>
-RequestType from_string(const std::string& str)
-{
-	if constexpr (std::is_empty_v<RequestType>)
-	{
-		return RequestType{};
-	}
-	else
-	{
-		return RequestType(nlohmann::json::parse(str));
-	}
-}
-
-template <typename Tuple, typename Cb>
-void foreach(Tuple&& t, Cb&& cb)
-{
-	std::apply(
-		[&]<typename... T>(T&&... element)
-		{
-			(cb(std::forward<T>(element)), ...);
-		}, std::forward<Tuple>(t));
-}
 
 class App
 {
-	private:
-
-		template <typename R>
-		void add_route(const R& route)
-		{
-			_srv.Post(route.path,
-				[&](const httplib::Request& req, httplib::Response& res)
-				{
-					using RequestType = typename R::Request;
-					res.body = reply::to_string(_app_logic(from_string<RequestType>(req.body)));
-					res.set_header("Access-Control-Allow-Origin", "*");
-				});
-		}
-
 	public:
 		App()
 		{
-			const auto routes = std::tuple
-				(
-					Route<request::Start, reply::Dummy> { "/start" },
-					Route<request::Guess, reply::Dummy> { "/guess" }
-				);
-
-			foreach(routes,
-				[&](const auto& r)
+			_srv.Get("/start",
+				[&](const httplib::Request& req, httplib::Response& res)
 				{
-					add_route(r);
+					nlohmann::json reply;
+					res.body = reply.dump();
+					res.set_header("Access-Control-Allow-Origin", "*");
 				});
-				_srv.set_mount_point("/", "./public");
+
+			_srv.Get("/start",
+				[&](const httplib::Request& req, httplib::Response& res)
+				{
+					nlohmann::json reply;
+					res.body = reply.dump();
+					res.set_header("Access-Control-Allow-Origin", "*");
+				});
 		}
 
 		void run(const char* host, int port)
@@ -88,6 +49,5 @@ class App
 		}
 
 	private:
-		AppLogic _app_logic;
 		httplib::Server _srv;
 };
