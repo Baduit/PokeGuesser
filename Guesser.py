@@ -1,14 +1,28 @@
 import random
 import datetime
+import schedule
+import time
 
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 
 from Poke import Pokemon, get_random_pokemon
 
+MAX_NB_PLAYER = 100000
+MAX_PLAYER_ID = MAX_NB_PLAYER * 10000
+MIN_PLAYER_ID = 1
+
 app = FastAPI()
 
-daily_pokemon = get_random_pokemon('fr')
+class DailyPokemonHandler:
+	def __init__(self) -> None:
+		self.update()
+
+	def update(self):
+		self.pokemon = get_random_pokemon('fr')
+		
+dailyPokemonHandler = DailyPokemonHandler()
+schedule.every().day.at("04:00").do(dailyPokemonHandler.update)
 
 info_order = [
 	"description",
@@ -37,7 +51,7 @@ class PlayerStatus:
 			return {
 				"success": True,
 				"game_status": "finished",
-				"pokemon": daily_pokemon.__dict__
+				"pokemon": dailyPokemonHandler.pokemon.__dict__
 			}
 		else:
 			self.nb_try += 1
@@ -50,7 +64,7 @@ class PlayerStatus:
 				"success": False,
 				"game_status": game_status,
 				"field_name": field_name,
-				"field_value": getattr(daily_pokemon, field_name)
+				"field_value": getattr(dailyPokemonHandler.pokemon, field_name)
 			}
 
 	
@@ -58,18 +72,24 @@ players = {}
 
 @app.get("/start")
 async def root():
-	new_id = random.randint(1, 1000000000)
-	print(f"Add new player with id: {new_id}")
-	players[new_id] = PlayerStatus()
-	return {
-		"id": new_id,
-		"description": daily_pokemon.description
-	}
+	if len(players) > MAX_NB_PLAYER:
+		return {
+			"error_message": f"There is more than {MAX_NB_PLAYER} players. That's too much"
+		}
+	else:
+		new_id = random.randint(MIN_PLAYER_ID, MAX_PLAYER_ID)
+		# Handle collision, it can't infinite loop because MAX_PLAYER_ID - MIN_PLAYER_ID is whay higher than MAX_NB_PLAYER
+		while new_id in players:
+			new_id = random.randint(MIN_PLAYER_ID, MAX_PLAYER_ID)
+		players[new_id] = PlayerStatus()
+		return {
+			"id": new_id,
+			"description": dailyPokemonHandler.pokemon.description
+		}
 
 
 @app.get("/guess")
 async def root(id: int, pokemon_name: str):
-	print(f"Received request from : {id} with the pokemon name: {pokemon_name}")
-	return players[id].try_guess(daily_pokemon, pokemon_name)
+	return players[id].try_guess(dailyPokemonHandler.pokemon, pokemon_name)
 
 app.mount("/", StaticFiles(directory="public", html=True), name="public")

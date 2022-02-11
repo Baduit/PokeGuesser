@@ -62,7 +62,6 @@ def get_random_pokemon_id() -> int:
 
 def get_random_pokemon(lang: str) -> Pokemon:
 	pokemon_id = get_random_pokemon_id()
-	print(pokemon_id)
 	pokemon = get_pokemon(pokemon_id, lang)
 	return pokemon
 
