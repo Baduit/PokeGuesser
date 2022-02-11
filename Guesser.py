@@ -1,12 +1,12 @@
 import random
 import datetime
-import schedule
-import time
+
 
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 
-from Poke import Pokemon, get_random_pokemon
+from DailyPokemonHandler import DailyPokemonHandler, Pokemon
+
 
 MAX_NB_PLAYER = 100000
 MAX_PLAYER_ID = MAX_NB_PLAYER * 10000
@@ -14,15 +14,8 @@ MIN_PLAYER_ID = 1
 
 app = FastAPI()
 
-class DailyPokemonHandler:
-	def __init__(self) -> None:
-		self.update()
 
-	def update(self):
-		self.pokemon = get_random_pokemon('fr')
-		
 dailyPokemonHandler = DailyPokemonHandler()
-schedule.every().day.at("04:00").do(dailyPokemonHandler.update)
 
 info_order = [
 	"description",
