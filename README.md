@@ -9,3 +9,6 @@ Your daily dose of Pokemon
 * Add a check in the front that verify if the pokemon exists
 * Think about weight/height units
 * Change the pokemon
+* Gérer collision des ids
+* Supprimer les comptes qui ont gagnés de la liste des users
+* Gérer la casse lol
