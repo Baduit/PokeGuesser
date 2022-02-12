@@ -4,7 +4,6 @@ import datetime
 
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
-from fastapi_utils.tasks import repeat_every
 
 from DailyPokemonHandler import DailyPokemonHandler, Pokemon
 
