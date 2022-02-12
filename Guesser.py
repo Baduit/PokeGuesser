@@ -4,6 +4,7 @@ import datetime
 
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
+from fastapi_utils.tasks import repeat_every
 
 from DailyPokemonHandler import DailyPokemonHandler, Pokemon
 
@@ -25,6 +26,7 @@ info_order = [
 	"image_url",
 	"name"
 ]
+
 
 class PlayerStatus:
 	def __init__(self) -> None:
@@ -65,6 +67,7 @@ players = {}
 
 @app.get("/start")
 async def root():
+	dailyPokemonHandler.update_if_needed()
 	if len(players) > MAX_NB_PLAYER:
 		return {
 			"error_message": f"There is more than {MAX_NB_PLAYER} players. That's too much"
@@ -83,6 +86,7 @@ async def root():
 
 @app.get("/guess")
 async def root(id: int, pokemon_name: str):
+	dailyPokemonHandler.update_if_needed()
 	return players[id].try_guess(dailyPokemonHandler.pokemon, pokemon_name)
 
 app.mount("/", StaticFiles(directory="public", html=True), name="public")
