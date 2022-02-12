@@ -5,7 +5,8 @@ import datetime
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 
-from DailyPokemonHandler import DailyPokemonHandler, Pokemon
+from DailyPokemonHandler import DailyPokemonHandler
+from Poke import Pokemon, POKEMON_NAMES
 
 
 MAX_NB_PLAYER = 100000
@@ -65,7 +66,7 @@ class PlayerStatus:
 players = {}
 
 @app.get("/start")
-async def root():
+async def start_game():
 	dailyPokemonHandler.update_if_needed()
 	if len(players) > MAX_NB_PLAYER:
 		return {
@@ -84,8 +85,14 @@ async def root():
 
 
 @app.get("/guess")
-async def root(id: int, pokemon_name: str):
+async def guess_pokemon(id: int, pokemon_name: str):
 	dailyPokemonHandler.update_if_needed()
 	return players[id].try_guess(dailyPokemonHandler.pokemon, pokemon_name)
+
+@app.get("/names")
+async def get_names(lang: str):
+	return {
+		'names': POKEMON_NAMES[lang]
+	}
 
 app.mount("/", StaticFiles(directory="public", html=True), name="public")

@@ -1,4 +1,5 @@
 let player_id = 0
+let pokemon_names = []
 
 function update_image(image_url) {
 	document.getElementById("pokemon_image").src = image_url
@@ -36,9 +37,13 @@ function is_local() {
 }
 
 function try_guess_pokemon() {
-	const pokemon_name = document.getElementById("title_input").value
+	let pokemon_name = document.getElementById("title_input").value
+	// Capitalize first character
+	pokemon_name = pokemon_name.charAt(0).toUpperCase() + pokemon_name.slice(1)
 	if (pokemon_name == "") {
 		return
+	} else if (!pokemon_names.includes(pokemon_name)) {
+		alert('This pokemon does not exist.')
 	}
 
 	const options = {
@@ -98,14 +103,14 @@ function startup() {
 		method: 'GET'
 	}
 
-	let url;
+	let start_url;
 	if (is_local()) {
-		url = "http://localhost:1234/start"
+		start_url = "http://localhost:1234/start"
 	} else {
-		url = "https://pokeguesser.baduit.eu/start"
+		start_url = "https://pokeguesser.baduit.eu/start"
 	}
 
-	fetch(url, options)
+	fetch(start_url, options)
 		.then((response) => {
 			return response.text()
 		})
@@ -115,6 +120,23 @@ function startup() {
 			player_id = object_response.id
 			let element = document.getElementById("pokemon_description")
 			element.textContent = element.textContent.replace("???", object_response.description)
+		})
+
+	let pokemon_names_url;
+	if (is_local()) {
+		pokemon_names_url = new URL("http://localhost:1234/names")
+	} else {
+		pokemon_names_url = new URL("https://pokeguesser.baduit.eu/names")
+	}
+	pokemon_names_url.searchParams.append('lang', 'fr')
+	fetch(pokemon_names_url, options)
+		.then((response) => {
+			return response.text()
+		})
+		.then((text_response) => {
+			console.log(text_response)
+			let object_response = JSON.parse(text_response)
+			pokemon_names = object_response.names
 		})
 }
 
