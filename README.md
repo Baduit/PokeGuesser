@@ -10,4 +10,3 @@ Your daily dose of Pokemon
 * Varier les descriptions/flavor_text
 * Ajouter la génération du pokémon
 * Add Github Link
-* Add auto completion

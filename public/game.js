@@ -1,6 +1,15 @@
 let player_id = 0
 let pokemon_names = []
 
+function onKeyPressed(event) {
+	const enterKeyCode = 13
+
+
+	if (event.keyCode == enterKeyCode) {
+		try_guess_pokemon()
+	}
+}
+
 function update_image(image_url) {
 	document.getElementById("pokemon_image").src = image_url
 }
@@ -98,6 +107,15 @@ function try_guess_pokemon() {
 		})
 }
 
+function update_pokemon_list() {
+	let element = document.getElementById("pokemon_list")
+	for (let i = 0; i < pokemon_names.length; ++i) {
+		let new_option = document.createElement("option")
+		new_option.value = pokemon_names[i]
+		element.appendChild(new_option)
+	}
+}
+
 function startup() {
 	const options = {
 		method: 'GET'
@@ -137,6 +155,7 @@ function startup() {
 			console.log(text_response)
 			let object_response = JSON.parse(text_response)
 			pokemon_names = object_response.names
+			update_pokemon_list()
 		})
 }
 

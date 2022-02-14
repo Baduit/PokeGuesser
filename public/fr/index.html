@@ -23,8 +23,9 @@
 
 	</div>
 	<div id="answer">
-		<input type="text" id="title_input" name="lname">
+		<input type="text" id="title_input" name="lname" onkeypress="onKeyPressed(event)" autofocus list="pokemon_list">
 		<button id="guess_pokemon" type="button" onclick="try_guess_pokemon()">Guess</button>
+		<datalist id="pokemon_list"></datalist>
 	</div>
 
 	<script src="../game.js"></script>
