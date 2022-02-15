@@ -4,6 +4,7 @@ import datetime
 
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
+from fastapi.middleware.cors import CORSMiddleware
 
 from DailyPokemonHandler import DailyPokemonHandler
 from Poke import Pokemon, POKEMON_NAMES
@@ -14,6 +15,13 @@ MAX_PLAYER_ID = MAX_NB_PLAYER * 10000
 MIN_PLAYER_ID = 1
 
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 dailyPokemonHandler = DailyPokemonHandler()
