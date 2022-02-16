@@ -103,4 +103,4 @@ async def get_names(lang: str):
 		'names': POKEMON_NAMES[lang]
 	}
 
-app.mount("/", StaticFiles(directory="public", html=True), name="public")
+app.mount("/", StaticFiles(directory="front/build", html=True), name="Morgan<3")
