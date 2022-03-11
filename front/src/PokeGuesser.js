@@ -111,15 +111,15 @@ function PokeGuesser() {
                 </tr>
                 <tr>
                   <td>Types</td>
-                  <td>{pokemonTypes}</td>
+                  <td>{pokemonTypes.map((e) => ("[" + e + "] "))}</td>
                 </tr>
                 <tr>
                   <td>Poids</td>
-                  <td>{pokemonWeight}</td>
+                  <td>{pokemonWeight} {(pokemonWeight != '?' ? 'kg' : '')}</td>
                 </tr>
                 <tr>
                   <td>Taille</td>
-                  <td>{pokemonHeight}</td>
+                  <td>{pokemonHeight} {(pokemonHeight != '?' ? 'm' : '')}</td>
                 </tr>
                 <tr>
                   <td>Description</td>
