@@ -12,7 +12,8 @@ function PokeGuesser() {
   const [playerID, setPlayerID] = useState('');
   const [pokemonGuess, setPokemonGuess] = useState([]);
   const [pokemonList, setPokemonList] = useState([]);
-  const [show, setShow] = useState(false);
+  const [showWin, setShowWin] = useState(false);
+  const [showLose, setShowLose] = useState(false);
   const [step, setStep] = useState(1);
   const [error, setError] = useState('');
 
@@ -69,12 +70,13 @@ function PokeGuesser() {
               case 'name':
                 setPokemonName(data.field_value);
                 setStep(step + 1);
+                setShowLose(true);
                 break;
               default:
                 break;
             }
           } else {
-            setShow(true);
+            setShowWin(true);
             setError('');
             setPokemonTypes(data.pokemon.types);
             setPokemonHeight(data.pokemon.height);
@@ -89,7 +91,8 @@ function PokeGuesser() {
   };
 
   const handleClose = () => {
-    setShow(false);
+    setShowWin(false);
+    setShowLose(false);
   }
 
   return (
@@ -133,15 +136,15 @@ function PokeGuesser() {
                 </tr>
                 <tr>
                   <td>Types</td>
-                  <td>{pokemonTypes.map((e) => ("[" + e + "] "))}</td>
+                  <td>{(Array.isArray(pokemonTypes) ? pokemonTypes.map((e) => ("[" + e + "] ")) : pokemonTypes)}</td>
                 </tr>
                 <tr>
                   <td>Poids</td>
-                  <td>{pokemonWeight} {(pokemonWeight != '?' ? 'kg' : '')}</td>
+                  <td>{pokemonWeight} {(pokemonWeight !== '?' ? 'kg' : '')}</td>
                 </tr>
                 <tr>
                   <td>Taille</td>
-                  <td>{pokemonHeight} {(pokemonHeight != '?' ? 'm' : '')}</td>
+                  <td>{pokemonHeight} {(pokemonHeight !== '?' ? 'm' : '')}</td>
                 </tr>
                 <tr>
                   <td>Description</td>
@@ -153,11 +156,23 @@ function PokeGuesser() {
         </Row>
       </Container>
 
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={showWin} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Victoire !</Modal.Title>
         </Modal.Header>
         <Modal.Body>Félicitations, vous avez trouvé {pokemonName} en {step} essai{step > 1 ? 's' : ''} !</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Fermer
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal show={showLose} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Défaite !</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Dommage, vous n'avez pas trouvé {pokemonName} !</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Fermer
