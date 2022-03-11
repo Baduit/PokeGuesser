@@ -95,6 +95,20 @@ function PokeGuesser() {
     setShowLose(false);
   }
 
+  const shareResult = () => {
+    let content = "PokéGuesser : "
+    content = content + (step > 5 ? "😢 Défaite.. "+ step + "/6 😢\n" : "🎉 Victoire ! "+ step + "/6 🎉\n")
+    content = content + "- 📖 : " + (step > 0 ? "📝" : "🔒") + "\n"
+    content = content + "- 🗃️ : " + (step > 1 ? "📝" : "🔒") + "\n"
+    content = content + "- 🤏 : " + (step > 2 ? "📝" : "🔒") + "\n"
+    content = content + "- ⚖️ : " + (step > 3 ? "📝" : "🔒") + "\n"
+    content = content + "- 🖼️ : " + (step > 4 ? "📝" : "🔒") + "\n"
+    content = content + "- 📟 : " + (step > 5 ? "📝" : "🔒") + "\n"
+    content = content + "https://pokeguesser.baduit.eu"
+    console.log(content)
+    navigator.clipboard.writeText(content)
+  }
+
   return (
     <div className="PokeGuessr">
       <Container fluid>
@@ -162,6 +176,9 @@ function PokeGuesser() {
         </Modal.Header>
         <Modal.Body>Félicitations, vous avez trouvé {pokemonName} en {step} essai{step > 1 ? 's' : ''} !</Modal.Body>
         <Modal.Footer>
+          <Button variant="secondary" onClick={shareResult}>
+            Partager
+          </Button>
           <Button variant="secondary" onClick={handleClose}>
             Fermer
           </Button>
@@ -174,6 +191,9 @@ function PokeGuesser() {
         </Modal.Header>
         <Modal.Body>Dommage, vous n'avez pas trouvé {pokemonName} !</Modal.Body>
         <Modal.Footer>
+          <Button variant="secondary" onClick={shareResult}>
+            Partager
+          </Button>
           <Button variant="secondary" onClick={handleClose}>
             Fermer
           </Button>
