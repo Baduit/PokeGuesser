@@ -17,6 +17,15 @@ function App() {
         </Row>
       </header>
       <PokeGuesser />
+      <footer className="App-footer">
+        <Row>
+          <Col>
+            <a href="https://github.com/Baduit/PokeGuesser" target="_blank">
+              <img src="github.svg" className="githubIcon" />
+            </a>
+          </Col>
+        </Row>
+      </footer>
     </div>
   );
 }

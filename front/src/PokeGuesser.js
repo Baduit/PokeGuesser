@@ -12,7 +12,8 @@ function PokeGuesser() {
   const [playerID, setPlayerID] = useState('');
   const [pokemonGuess, setPokemonGuess] = useState([]);
   const [pokemonList, setPokemonList] = useState([]);
-  const [show, setShow] = useState(false);
+  const [showWin, setShowWin] = useState(false);
+  const [showLose, setShowLose] = useState(false);
   const [step, setStep] = useState(1);
   const [error, setError] = useState('');
 
@@ -69,12 +70,13 @@ function PokeGuesser() {
               case 'name':
                 setPokemonName(data.field_value);
                 setStep(step + 1);
+                setShowLose(true);
                 break;
               default:
                 break;
             }
           } else {
-            setShow(true);
+            setShowWin(true);
             setError('');
             setPokemonTypes(data.pokemon.types);
             setPokemonHeight(data.pokemon.height);
@@ -89,46 +91,27 @@ function PokeGuesser() {
   };
 
   const handleClose = () => {
-    setShow(false);
+    setShowWin(false);
+    setShowLose(false);
+  }
+
+  const shareResult = () => {
+    let content = "PokéGuesser : "
+    content = content + (step > 5 ? "😢 Défaite.. "+ step + "/6 😢\n" : "🎉 Victoire ! "+ step + "/6 🎉\n")
+    content = content + "- 📖 : " + (step > 0 ? "📝" : "🔒") + "\n"
+    content = content + "- 🗃️ : " + (step > 1 ? "📝" : "🔒") + "\n"
+    content = content + "- 🤏 : " + (step > 2 ? "📝" : "🔒") + "\n"
+    content = content + "- ⚖️ : " + (step > 3 ? "📝" : "🔒") + "\n"
+    content = content + "- 🖼️ : " + (step > 4 ? "📝" : "🔒") + "\n"
+    content = content + "- 📟 : " + (step > 5 ? "📝" : "🔒") + "\n"
+    content = content + "https://pokeguesser.baduit.eu"
+    console.log(content)
+    navigator.clipboard.writeText(content)
   }
 
   return (
     <div className="PokeGuessr">
       <Container fluid>
-        <Row>
-          <Col>
-            <Image
-              src={pokemonImage}
-              className='img-thumbnail'
-            />
-          </Col>
-          <Col>
-            <Table striped bordered hover size="sm" style={{ height: '100%', verticalAlign: 'middle' }}>
-              <tbody>
-                <tr>
-                  <td>Nom</td>
-                  <td>{pokemonName}</td>
-                </tr>
-                <tr>
-                  <td>Types</td>
-                  <td>{pokemonTypes}</td>
-                </tr>
-                <tr>
-                  <td>Poids</td>
-                  <td>{pokemonWeight}</td>
-                </tr>
-                <tr>
-                  <td>Taille</td>
-                  <td>{pokemonHeight}</td>
-                </tr>
-                <tr>
-                  <td>Description</td>
-                  <td>{pokemonDescription}</td>
-                </tr>
-              </tbody>
-            </Table>
-          </Col>
-        </Row>
         <Row>
           <Form onSubmit={handleSubmit} className='d-flex justify-content-center' style={{ margin: '2vmin' }}>
             <Form.Group>
@@ -151,14 +134,66 @@ function PokeGuesser() {
             </Alert>
             : <></>}
         </Row>
+        <Row>
+          <Col>
+            <Image
+              src={pokemonImage}
+              className='img-thumbnail'
+            />
+          </Col>
+          <Col>
+            <Table striped bordered hover size="sm" style={{ height: '100%', verticalAlign: 'middle' }}>
+              <tbody>
+                <tr>
+                  <td>Nom</td>
+                  <td>{pokemonName}</td>
+                </tr>
+                <tr>
+                  <td>Types</td>
+                  <td>{(Array.isArray(pokemonTypes) ? pokemonTypes.map((e) => ("[" + e + "] ")) : pokemonTypes)}</td>
+                </tr>
+                <tr>
+                  <td>Poids</td>
+                  <td>{pokemonWeight} {(pokemonWeight !== '?' ? 'kg' : '')}</td>
+                </tr>
+                <tr>
+                  <td>Taille</td>
+                  <td>{pokemonHeight} {(pokemonHeight !== '?' ? 'm' : '')}</td>
+                </tr>
+                <tr>
+                  <td>Description</td>
+                  <td>{pokemonDescription}</td>
+                </tr>
+              </tbody>
+            </Table>
+          </Col>
+        </Row>
       </Container>
 
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={showWin} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Victoire !</Modal.Title>
         </Modal.Header>
         <Modal.Body>Félicitations, vous avez trouvé {pokemonName} en {step} essai{step > 1 ? 's' : ''} !</Modal.Body>
         <Modal.Footer>
+          <Button variant="secondary" onClick={shareResult}>
+            Partager
+          </Button>
+          <Button variant="secondary" onClick={handleClose}>
+            Fermer
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal show={showLose} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Défaite !</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Dommage, vous n'avez pas trouvé {pokemonName} !</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={shareResult}>
+            Partager
+          </Button>
           <Button variant="secondary" onClick={handleClose}>
             Fermer
           </Button>
