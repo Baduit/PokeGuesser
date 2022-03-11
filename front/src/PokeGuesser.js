@@ -96,6 +96,28 @@ function PokeGuesser() {
     <div className="PokeGuessr">
       <Container fluid>
         <Row>
+          <Form onSubmit={handleSubmit} className='d-flex justify-content-center' style={{ margin: '2vmin' }}>
+            <Form.Group>
+              <Typeahead
+                id="basic-typeahead-single"
+                labelKey="name"
+                onChange={setPokemonGuess}
+                options={pokemonList}
+                placeholder="Nom du pokémon..."
+                selected={pokemonGuess}
+              />
+            </Form.Group>
+            <Button variant="primary" type="submit">
+              Deviner
+            </Button>
+          </Form>
+          {error !== '' ?
+            <Alert key={0} variant={'danger'}>
+              {error}
+            </Alert>
+            : <></>}
+        </Row>
+        <Row>
           <Col>
             <Image
               src={pokemonImage}
@@ -128,28 +150,6 @@ function PokeGuesser() {
               </tbody>
             </Table>
           </Col>
-        </Row>
-        <Row>
-          <Form onSubmit={handleSubmit} className='d-flex justify-content-center' style={{ margin: '2vmin' }}>
-            <Form.Group>
-              <Typeahead
-                id="basic-typeahead-single"
-                labelKey="name"
-                onChange={setPokemonGuess}
-                options={pokemonList}
-                placeholder="Nom du pokémon..."
-                selected={pokemonGuess}
-              />
-            </Form.Group>
-            <Button variant="primary" type="submit">
-              Deviner
-            </Button>
-          </Form>
-          {error !== '' ?
-            <Alert key={0} variant={'danger'}>
-              {error}
-            </Alert>
-            : <></>}
         </Row>
       </Container>
 
