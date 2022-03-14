@@ -24,7 +24,13 @@ app.add_middleware(
 )
 
 
-dailyPokemonHandler = DailyPokemonHandler()
+dailyPokemonHandlers = {
+	'fr': DailyPokemonHandler('fr'),
+	'en': DailyPokemonHandler('en'),
+	'de': DailyPokemonHandler('de'),
+	'it': DailyPokemonHandler('it'),
+	'es': DailyPokemonHandler('es')
+}
 
 info_order = [
 	"description",
@@ -43,7 +49,7 @@ class PlayerStatus:
 		self.nb_try = 0
 		self.finish = False
 
-	def try_guess(self, pokemon: Pokemon, pokemon_name: str):
+	def try_guess(self, pokemon: Pokemon, pokemon_name: str, lang: str):
 		if self.finish == True:
 			return {
 				"success": False,
@@ -54,7 +60,7 @@ class PlayerStatus:
 			return {
 				"success": True,
 				"game_status": "finished",
-				"pokemon": dailyPokemonHandler.pokemon.__dict__
+				"pokemon": dailyPokemonHandlers[lang].pokemon.__dict__
 			}
 		else:
 			self.nb_try += 1
@@ -67,15 +73,15 @@ class PlayerStatus:
 				"success": False,
 				"game_status": game_status,
 				"field_name": field_name,
-				"field_value": getattr(dailyPokemonHandler.pokemon, field_name)
+				"field_value": getattr(dailyPokemonHandlers[lang].pokemon, field_name)
 			}
 
 	
 players = {}
 
 @app.get("/start")
-async def start_game():
-	dailyPokemonHandler.update_if_needed()
+async def start_game(lang: str = 'fr'):
+	dailyPokemonHandlers[lang].update_if_needed()
 	if len(players) > MAX_NB_PLAYER:
 		return {
 			"error_message": f"There is more than {MAX_NB_PLAYER} players. That's too much"
@@ -88,14 +94,14 @@ async def start_game():
 		players[new_id] = PlayerStatus()
 		return {
 			"id": new_id,
-			"description": dailyPokemonHandler.pokemon.description
+			"description": dailyPokemonHandlers[lang].pokemon.description
 		}
 
 
 @app.get("/guess")
-async def guess_pokemon(id: int, pokemon_name: str):
-	dailyPokemonHandler.update_if_needed()
-	return players[id].try_guess(dailyPokemonHandler.pokemon, pokemon_name)
+async def guess_pokemon(id: int, pokemon_name: str, lang: str = 'fr'):
+	dailyPokemonHandlers[lang].update_if_needed()
+	return players[id].try_guess(dailyPokemonHandlers[lang].pokemon, pokemon_name, lang)
 
 @app.get("/names")
 async def get_names(lang: str):

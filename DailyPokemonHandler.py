@@ -4,11 +4,12 @@ from turtle import update
 from Poke import Pokemon, get_random_pokemon
 
 class DailyPokemonHandler:
-	def __init__(self) -> None:
+	def __init__(self, lang: str) -> None:
+		self.lang = lang
 		self.update()
 
 	def update(self):
-		self.pokemon = get_random_pokemon('fr')
+		self.pokemon = get_random_pokemon(self.lang)
 		self.hide_pokemon_name_in_description()
 		now = datetime.datetime.now()
 		# Update time is 4 am, not the time when the app is launched
