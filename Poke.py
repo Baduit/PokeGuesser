@@ -53,7 +53,8 @@ def get_pokemon(pokemon_id: int, lang: str) -> Pokemon:
         f"{poke_url}/pokemon/{pokemon_id}").text)
     # Data received from the API is in dm, but I think m are more conventional (also) the front uses m
     pokemon.height = pokemon_json['height'] / 10
-    pokemon.weight = pokemon_json['weight']
+    # Similar problem with the weight
+    pokemon.weight = pokemon_json['weight'] / 10
     pokemon.image_url = pokemon_json['sprites']['other']['official-artwork']['front_default']
 
     pokemon.name, pokemon.description = get_name_and_description_from_url(
