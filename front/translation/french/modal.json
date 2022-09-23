@@ -1,0 +1,14 @@
+{
+	"text": {
+		"defeat": "Dommage, vous n'avez pas trouvé ",
+		"try": {
+			"plural": "essai",
+			"singular": "essais"
+		},
+		"victory": "Félicitations, vous avez trouvé Excelangue"
+	},
+	"title": {
+		"defeat": "Défaite",
+		"victory": "Victoire"
+	}
+}

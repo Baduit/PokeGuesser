@@ -1,0 +1,14 @@
+{
+	"text": {
+		"defeat": "",
+		"try": {
+			"plural": "try",
+			"singular": "tries"
+		},
+		"victory": ""
+	},
+	"title": {
+		"defeat": "Defeat",
+		"victory": "Victory"
+	}
+}
