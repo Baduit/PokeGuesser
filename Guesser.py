@@ -10,6 +10,8 @@ from fastapi_utils.tasks import repeat_every
 from DailyPokemonHandler import DailyPokemonHandler
 from Poke import Pokemon, POKEMON_NAMES
 
+import uvicorn
+
 
 MAX_NB_PLAYER = 100000
 MAX_PLAYER_ID = MAX_NB_PLAYER * 10000
@@ -163,3 +165,6 @@ async def get_number_of_players():
 	return len(player_manager.players)
 
 app.mount("/", StaticFiles(directory="front/build", html=True), name="Morgan<3")
+
+if __name__ == '__main__':
+	uvicorn.run('Guesser:app', port=1234)
