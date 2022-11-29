@@ -7,7 +7,10 @@ RUN apt update
 
 RUN apt install python3 -y
 RUN apt install python3-pip -y
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install "fastapi[all]"
+RUN pip install fastapi_utils
+RUN pip install "uvicorn[standard]"
+RUN pip install requests
 
 RUN apt install nodejs  -y
 RUN apt install npm -y
