@@ -1,5 +1,4 @@
 import datetime
-from turtle import update
 
 from Poke import Pokemon, get_random_pokemon
 
