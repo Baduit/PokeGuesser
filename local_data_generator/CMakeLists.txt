@@ -11,5 +11,9 @@ find_package(strong_type CONFIG REQUIRED)
 set(SRCS src/main.cpp)
 
 add_executable(local_data_generator ${SRCS})
+target_compile_options(local_data_generator
+					   PRIVATE
+					   $<$<CXX_COMPILER_ID:MSVC>:/W3 /permissive- /TP>
+					   $<$<OR:$<CXX_COMPILER_ID:GNU>,$<CXX_COMPILER_ID:Clang>>:-Wextra -Wall -Wsign-conversion -Wfloat-equal -pedantic -Wredundant-decls -Wshadow -Wpointer-arith -O3>)
 target_link_libraries(local_data_generator PRIVATE strong_type::strong_type)					   
  
