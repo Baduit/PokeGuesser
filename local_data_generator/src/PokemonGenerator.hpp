@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Pokemon.hpp>
+
 namespace pokemon
 {
 	

@@ -18,5 +18,5 @@ target_compile_options(local_data_generator
 					   PRIVATE
 					   $<$<CXX_COMPILER_ID:MSVC>:${MSVC_FLAGS}>
 					   $<$<OR:$<CXX_COMPILER_ID:GNU>,$<CXX_COMPILER_ID:Clang>>:${GCC_CLANG_FLAGS}>)
-target_link_libraries(local_data_generator PRIVATE strong_type::strong_type)					   
+target_include_directories(local_data_generator PRIVATE src)					   
  
