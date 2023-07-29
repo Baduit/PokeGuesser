@@ -12,14 +12,15 @@ set(GCC_CLANG_FLAGS -Wextra -Wall -Wsign-conversion -Wfloat-equal -pedantic -Wre
 
 # Depedencies
 find_package(strong_type CONFIG REQUIRED)
+find_package(nlohmann_json 3.2.0 REQUIRED)
 
 # Executable
 set(SRCS src/main.cpp)
-
 add_executable(local_data_generator ${SRCS})
 target_compile_options(local_data_generator
 					   PRIVATE
 					   $<$<CXX_COMPILER_ID:MSVC>:${MSVC_FLAGS}>
 					   $<$<OR:$<CXX_COMPILER_ID:GNU>,$<CXX_COMPILER_ID:Clang>>:${GCC_CLANG_FLAGS}>)
 target_include_directories(local_data_generator PRIVATE src)					   
+target_link_libraries(local_data_generator PRIVATE strong_type::strong_type nlohmann_json::nlohmann_json)					   
  

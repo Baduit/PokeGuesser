@@ -3,6 +3,8 @@
 #include <map>
 #include <string>
 
+#include <nlohmann/json.hpp>
+
 #include <Language.hpp>
 #include <Type.hpp>
 
@@ -19,7 +21,7 @@ struct Pokemon
 	std::map<Language, Type> types;
 };
 
-
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Pokemon, names, descriptions, height, weight, generation, types)
 
 } // namespace pokemon
 
