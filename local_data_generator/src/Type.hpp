@@ -3,11 +3,13 @@
 #include <string>
 
 #include <strong_type/strong_type.hpp>
-#include <strong_type/equality.hpp>
+#include <strong_type/regular.hpp>
+#include <strong_type/ordered.hpp>
 
 namespace pokemon
 {
 
-using Type = strong::type<std::string, struct Type_, strong::equality>;
+using Type = strong::type<std::string, struct Type_, strong::regular, strong::ordered>;
+
 
 } // namespace pokemon
