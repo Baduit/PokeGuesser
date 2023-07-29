@@ -2,6 +2,9 @@
 
 #include <string>
 
+#include <strong_type/strong_type.hpp>
+#include <strong_type/equality.hpp>
+
 namespace pokemon
 {
 
