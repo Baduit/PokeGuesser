@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.24)
 
 project(local_data_generator VERSION 0.0.1 DESCRIPTION "Generate all the needed data for Pokeguesser from the data of github repository of pokeapi to avoid calling the API everyday")
 
+# Flags
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -9,8 +10,10 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(MSVC_FLAGS /W3 /permissive- /TP)
 set(GCC_CLANG_FLAGS -Wextra -Wall -Wsign-conversion -Wfloat-equal -pedantic -Wredundant-decls -Wshadow -Wpointer-arith -O3)
 
+# Depedencies
 find_package(strong_type CONFIG REQUIRED)
 
+# Executable
 set(SRCS src/main.cpp)
 
 add_executable(local_data_generator ${SRCS})
