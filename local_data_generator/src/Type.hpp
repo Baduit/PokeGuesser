@@ -5,6 +5,6 @@
 namespace pokemon
 {
 
-using Type = std::string;
+using Type = strong::type<std::string, struct Type_, strong::equality>;
 
 } // namespace pokemon

@@ -7,6 +7,7 @@
 	"description": "Generate all the needed data for Pokeguesser from the data of github repository of pokeapi to avoid calling the API everyday",
 	"dependencies": [
 		"nlohmann-json",
-		"tl-generator"
+		"tl-generator",
+		"strong-type"
 	]
 }
