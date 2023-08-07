@@ -15,7 +15,10 @@ find_package(strong_type CONFIG REQUIRED)
 find_package(nlohmann_json 3.2.0 REQUIRED)
 
 # Executable
-set(SRCS src/main.cpp)
+set(SRCS
+		src/main.cpp
+		src/ioUtils.cpp
+	)
 add_executable(local_data_generator ${SRCS})
 target_compile_options(local_data_generator
 					   PRIVATE
