@@ -12,7 +12,7 @@ set(GCC_CLANG_FLAGS -Wextra -Wall -Wsign-conversion -Wfloat-equal -pedantic -Wre
 
 # Depedencies
 find_package(strong_type CONFIG REQUIRED)
-find_package(nlohmann_json 3.2.0 REQUIRED)
+find_package(nlohmann_json 3.2.0 CONFIG REQUIRED)
 
 # Executable
 set(SRCS
