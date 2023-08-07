@@ -8,6 +8,7 @@
 	"dependencies": [
 		"nlohmann-json",
 		"tl-generator",
-		"strong-type"
+		"strong-type",
+		"units"
 	]
 }
