@@ -7,6 +7,10 @@
 
 #include <Language.hpp>
 #include <Type.hpp>
+#include <units/lenght/Meter.hpp>
+#include <units/lenght/Decimeter.hpp>
+#include <units/mass/Kilogram.hpp>
+#include <units/mass/Hectogram.hpp>
 
 namespace pokemon
 {
@@ -15,8 +19,8 @@ struct Pokemon
 {
 	std::map<Language, std::string> names;
 	std::map<Language, std::string> descriptions;
-	std::size_t height;
-	std::size_t weight;
+	Meter height;
+	Kilogram weight;
 	std::size_t generation;
 	std::map<Language, Type> types;
 };
