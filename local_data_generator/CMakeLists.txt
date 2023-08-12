@@ -19,7 +19,7 @@ find_package(units CONFIG REQUIRED)
 # Executable
 set(SRCS
 		src/main.cpp
-		src/ioUtils.cpp
+		src/PokemonGenerator.cpp
 	)
 add_executable(local_data_generator ${SRCS})
 target_compile_options(local_data_generator
