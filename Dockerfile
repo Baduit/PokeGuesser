@@ -1,14 +1,24 @@
-FROM alpine:3.18.3
+FROM ubuntu:22.04 
 WORKDIR /pokeguesser
 COPY . /pokeguesser/
 
-RUN apk update
+ENV DEBIAN_FRONTEND noninteractive
+RUN apt update
 
-RUN apk add python3 py3-pip
+RUN apt install python3 python3-pip -y
 RUN pip install "fastapi[all]" fastapi_utils "uvicorn[standard]" pyserde
 
-RUN apk add nodejs npm
-RUN npm install -g npm
+
+# All this shit because node and the whole js ecosystem is shit
+ENV NVM_DIR /usr/local/nvm
+ENV NODE_VERSION v16.17.0
+RUN mkdir -p /usr/local/nvm && apt-get update && apt-get install curl -y
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+RUN /bin/bash -c "source $NVM_DIR/nvm.sh && nvm install $NODE_VERSION && nvm use --delete-prefix $NODE_VERSION"
+ENV NODE_PATH $NVM_DIR/versions/node/$NODE_VERSION/bin
+ENV PATH $NODE_PATH:$PATH
+
+RUN apt install npm -y
 
 WORKDIR /pokeguesser/front
 RUN npm install
