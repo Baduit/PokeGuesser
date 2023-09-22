@@ -11,7 +11,7 @@ RUN pip install "fastapi[all]" fastapi_utils "uvicorn[standard]" pyserde
 
 # All this shit because node and the whole js ecosystem is shit
 ENV NVM_DIR /usr/local/nvm
-ENV NODE_VERSION v16.17.0
+ENV NODE_VERSION v18.18.0
 RUN mkdir -p /usr/local/nvm && apt-get update && apt-get install curl -y
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 RUN /bin/bash -c "source $NVM_DIR/nvm.sh && nvm install $NODE_VERSION && nvm use --delete-prefix $NODE_VERSION"
