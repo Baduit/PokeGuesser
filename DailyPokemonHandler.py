@@ -26,5 +26,5 @@ class DailyPokemonHandler:
 			self.update()
 
 	def hide_pokemon_name_in_description(self):
-		self.pokemon.description.replace(self.pokemon.name, '******')
+		self.pokemon.description = self.pokemon.description.replace(self.pokemon.name, '******')
 
