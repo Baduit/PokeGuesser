@@ -8,7 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi_utils.tasks import repeat_every
 
 from DailyPokemonHandler import DailyPokemonHandler
-from Poke import Pokemon, POKEMON_NAMES
+from Poke import Pokemon, NamesHandler
 
 MAX_NB_PLAYER = 100000
 MAX_PLAYER_ID = MAX_NB_PLAYER * 10000
@@ -120,6 +120,7 @@ class PlayerManager:
 		self.players = {id:p for (id,p) in self.players.items() if p.is_active()}
 	
 player_manager = PlayerManager()
+names_handler = NamesHandler()
 
 def daily_updates():
 	for poke_handler in dailyPokemonHandlers.values():
@@ -154,7 +155,7 @@ async def guess_pokemon(id: int, pokemon_name: str, lang: str = 'fr'):
 @app.get("/names")
 async def get_names(lang: str):
 	return {
-		'names': POKEMON_NAMES[lang]
+		'names': names_handler.get_all_pokemon_names(lang)
 	}
 
 @app.get("/stats/nb_players")
