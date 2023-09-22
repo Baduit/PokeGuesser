@@ -6,7 +6,7 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt update
 
 RUN apt install python3 python3-pip -y
-RUN pip install "fastapi[all]" fastapi_utils "uvicorn[standard]" requests pyserde
+RUN pip install "fastapi[all]" fastapi_utils "uvicorn[standard]" pyserde
 
 RUN apt install nodejs npm -y
 
