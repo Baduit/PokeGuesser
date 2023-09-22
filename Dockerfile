@@ -5,15 +5,10 @@ COPY . /pokeguesser/
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt update
 
-RUN apt install python3 -y
-RUN apt install python3-pip -y
-RUN pip install "fastapi[all]"
-RUN pip install fastapi_utils
-RUN pip install "uvicorn[standard]"
-RUN pip install requests
+RUN apt install python3 python3-pip -y
+RUN pip install "fastapi[all]" fastapi_utils "uvicorn[standard]" requests pyserde
 
-RUN apt install nodejs  -y
-RUN apt install npm -y
+RUN apt install nodejs npm -y
 
 WORKDIR /pokeguesser/front
 RUN npm install
