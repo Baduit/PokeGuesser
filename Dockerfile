@@ -1,14 +1,14 @@
-FROM ubuntu:22.04
+FROM alpine:3.18.3
 WORKDIR /pokeguesser
 COPY . /pokeguesser/
 
-ENV DEBIAN_FRONTEND noninteractive
-RUN apt update
+RUN apk update
 
-RUN apt install python3 python3-pip -y
+RUN apk add python3 py3-pip
 RUN pip install "fastapi[all]" fastapi_utils "uvicorn[standard]" pyserde
 
-RUN apt install nodejs npm -y
+RUN apk add nodejs npm
+RUN npm install -g npm
 
 WORKDIR /pokeguesser/front
 RUN npm install
